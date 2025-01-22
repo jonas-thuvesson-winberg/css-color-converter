@@ -6,7 +6,7 @@
     "tsc": "tsc",
     "exec": "node ./dist/index.js",
     "build": "tsc",
-    "start": "npm run build && npm run exec -- samples --hex"
+    "start": "npm run build && npm run exec -- samples"
   },
   "author": "",
   "license": "ISC",

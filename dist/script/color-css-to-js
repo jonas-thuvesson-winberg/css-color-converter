@@ -6,7 +6,7 @@ original_dir=$(pwd)
 # Change to the script's directory
 cd "$(dirname "$0")" || exit
 
-node ./index.js
+node ./../index.js
 
 # Return to the original directory
 cd "$original_dir" || exit

@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "module": "ESNext", // Use ESM syntax (import/export)
+    "moduleResolution": "Node", // Proper module resolution for Node.js
+    "target": "ES6", // Use ES6+ features in the output
+    "outDir": "dist", // Output compiled files to "dist"
+    "rootDir": "src", // Compile files from "src"
+    "strict": true, // Enable strict type-checking
+    "esModuleInterop": true, // Allow CommonJS imports
+    "allowSyntheticDefaultImports": true, // Easier imports of CommonJS modules
+    "resolveJsonModule": true, // Allow importing JSON files
+    "skipLibCheck": true // Skip type checks on .d.ts files
+  },
+  "include": ["src"], // Ensure only "src" is compiled
+  "exclude": ["node_modules", "dist"] // Ignore these folders
+}

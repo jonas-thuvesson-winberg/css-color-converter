@@ -1,0 +1,1 @@
+export const colors = {"variable":"#123456","variable-2":"#ffffff","variable-3":"#ffffff80","variable-4":"#ffffffff"};

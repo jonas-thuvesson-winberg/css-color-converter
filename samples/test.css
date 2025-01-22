@@ -1,0 +1,12 @@
+html {
+    --variable: #123456;
+    --variable-2: rgb(255, 255, 255);
+    --variable-3: rgba(255, 255, 255, 0.5);
+    --variable-4: rgba(255, 255, 255, 1);
+}
+
+div {
+    background-color: var(--variable);
+    color: var(--variable-2);
+    border: 1px solid var(--variable-3);
+}

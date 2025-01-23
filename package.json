@@ -3,16 +3,14 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "tsc": "tsc",
-    "exec": "node ./dist/index.js",
-    "build": "tsc",
-    "start": "npm run build && npm run exec -- samples"
+    "build": "rm -rf ./dist && esbuild src/index.ts --bundle --platform=node --outfile=dist/css-color-converter --banner:js='#!/usr/bin/env node'"
   },
   "author": "",
   "license": "ISC",
   "description": "",
   "devDependencies": {
     "@types/node": "^22.10.7",
+    "esbuild": "^0.24.2",
     "typescript": "^5.7.3"
   }
 }

@@ -1,4 +1,4 @@
-import rgbHex from "./rbgHex";
+import rgbHex from "rgb-hex";
 
 export const processCss = (fileContents: string, convertToHex = false) => {
   // Define the regex pattern

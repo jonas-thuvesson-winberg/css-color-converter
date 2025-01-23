@@ -3,7 +3,10 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "build": "rm -rf ./dist && esbuild src/index.ts --bundle --platform=node --outfile=dist/css-color-converter --banner:js='#!/usr/bin/env node'"
+    "build": "rm -rf ./dist && esbuild src/index.ts --bundle --platform=node --outfile=dist/css-color-converter --banner:js='#!/usr/bin/env node'",
+    "dev": "npm run build -- --watch",
+    "exec": "node ./dist/css-color-converter",
+    "start": "npm run build && npm run exec"
   },
   "author": "",
   "license": "ISC",
@@ -12,5 +15,8 @@
     "@types/node": "^22.10.7",
     "esbuild": "^0.24.2",
     "typescript": "^5.7.3"
+  },
+  "dependencies": {
+    "rgb-hex": "^4.1.0"
   }
 }

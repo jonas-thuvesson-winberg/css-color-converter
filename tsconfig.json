@@ -1,7 +1,6 @@
 {
   "compilerOptions": {
-    "outFile": "./dist/bundle.js", // Specify the output file
-    "module": "AMD", // Use AMD or System module format (required for `outFile`)
+    "module": "CommonJS", // Use AMD or System module format (required for `outFile`)
     "target": "ES6", // Specify ECMAScript target
     "allowJs": true, // Include JS files if needed
     "esModuleInterop": true, // Enable interop with ES modules

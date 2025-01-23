@@ -7,16 +7,48 @@ import {
   kvPairToJsonString,
   kvPairToTsString,
   outputKvPair,
+  Some,
 } from "./util";
 
 if (argv.length < 4) {
-  console.error("Please provide an output directory and a directory for CSS/LESS/SCSS files");
+  console.error(
+    "Please provide an output directory and a directory for CSS/LESS/SCSS files"
+  );
   exit(1);
 }
 
 //const dir = argv[2];
-const outputDir = argv[2];
-const dir = argv[3];
+const outputDirArg = getArgValue(argv, "--output-dir", "-od");
+if (outputDirArg.type === "None") {
+  console.error("Please provide an output directory");
+  exit(1);
+}
+
+const outputDir = outputDirArg.value!.value!;
+
+const dirArg = getArgValue(argv, "--dir", "-d");
+if (dirArg.type === "None") {
+  console.error("Please provide a directory for CSS/LESS/SCSS files");
+  exit(1);
+}
+
+const dir = dirArg.value!.value!;
+
+
+const outputTypeArg = getArgValue(argv, "--output-format", '-of', ["json", "ts"]);
+let outputType = "ts";
+if (outputTypeArg.type === "Some") {
+  outputType = outputTypeArg.value!.value!;
+}
+
+const outfileNameArg = getArgValue(argv, "--output-file-name", '-ofn');
+let outputFile = "colors";
+if (outfileNameArg.type === "Some") {
+  outputFile = outfileNameArg.value!.value!;
+}
+console.log(outputFile);
+
+
 const files = fs.readdirSync(dir);
 const contents = files
   .filter((f) => f.endsWith(".css"))
@@ -28,11 +60,17 @@ for (const content of contents) {
   res.push(processCss(content, toHex));
 }
 
-const output = argv.includes("--json") ? "json" : "ts";
+
 
 const outputKv = outputKvPair(res);
-if (output === "json") {
-  fs.writeFileSync(path.join(outputDir, "colors.json"), kvPairToJsonString(outputKv));
+if (outputType === "json") {
+  fs.writeFileSync(
+    path.join(outputDir, `${outputFile}.json`),
+    kvPairToJsonString(outputKv)
+  );
 } else {
-  fs.writeFileSync(path.join(outputDir, "colors.ts"), kvPairToTsString(outputKv));
+  fs.writeFileSync(
+    path.join(outputDir, `${outputFile}.ts`),
+    kvPairToTsString(outputKv)
+  );
 }

@@ -2,3 +2,5 @@ node_modules
 dist
 /**/colors.ts
 /**/colors.json
+test-output/*.json
+test-output/*.ts

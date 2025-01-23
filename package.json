@@ -6,7 +6,12 @@
     "build": "rm -rf ./dist && esbuild src/index.ts --bundle --platform=node --outfile=dist/css-color-converter --banner:js='#!/usr/bin/env node'",
     "dev": "npm run build -- --watch",
     "exec": "node ./dist/css-color-converter",
-    "start": "npm run build && npm run exec"
+    "start": "npm run build && npm run exec",
+    "test-json": "node ./dist/css-color-converter --dir samples --output-dir test-output --output-format json",
+    "test-ts": "node ./dist/css-color-converter --dir samples --output-dir test-output --output-format ts",
+    "test-json-hex": "node ./dist/css-color-converter --dir samples --output-dir test-output --output-format json --hex -ofn hex-colors",
+    "test-ts-hex": "node ./dist/css-color-converter --dir samples --output-dir test-output --output-format ts --hex -ofn hex-colors",
+    "test": "npm run test-json && npm run test-ts && npm run test-json-hex && npm run test-ts-hex"
   },
   "author": "",
   "license": "ISC",

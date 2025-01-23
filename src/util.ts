@@ -5,10 +5,11 @@ export const kebabCaseToCamelCase = (str: string): string => {
 export const getArgValue = (
   args: string[],
   arg: string,
+  argShort?: string | null,
   allowedValues?: string[]
 ): Option<Arg> | Option<null> => {
   for (let i = 0; i < args.length; i++) {
-    if (args[i] === arg) {
+    if (args[i] === arg || (argShort && args[i] === argShort)) {
       if (i + 1 < args.length && !args[i + 1].startsWith("--")) {
         if (allowedValues && !allowedValues.includes(args[i + 1]))
           return None();
@@ -32,7 +33,8 @@ export const kvPairToJsonString = (kvPair: { [key: string]: string }) =>
 export const kvPairToTsString = (kvPair: { [key: string]: string }) =>
   Object.entries(kvPair)
     .map(
-      ([key, value]) => `export const ${kebabCaseToCamelCase(key)} = "${value}";`
+      ([key, value]) =>
+        `export const ${kebabCaseToCamelCase(key)} = "${value}";`
     )
     .join("\n");
 

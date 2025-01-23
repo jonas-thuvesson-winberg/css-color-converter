@@ -1,4 +1,4 @@
-import rgbHex from "rgb-hex";
+import rgbHex from "./rbgHex";
 
 export const processCss = (fileContents: string, convertToHex = false) => {
   // Define the regex pattern
@@ -18,7 +18,6 @@ export const processCss = (fileContents: string, convertToHex = false) => {
         (convertToHex && color.startsWith("rgb")) ||
         (color.startsWith("rgba") && !color.endsWith(")"))
       ) {
-        console.log("hex");
         color = `#${rgbHex(color)}`;
       }
       matches.push({

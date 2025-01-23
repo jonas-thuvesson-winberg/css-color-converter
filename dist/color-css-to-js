@@ -1,0 +1,12 @@
+#!/bin/sh
+
+# # Save the current directory
+# original_dir=$(pwd)
+
+# # Change to the script's directory
+# cd "$(dirname "$0")" || exit
+
+node bundle.js "$@"
+
+# # Return to the original directory
+# cd "$original_dir" || exit

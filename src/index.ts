@@ -1,7 +1,13 @@
 import path from "node:path";
-import { processCss } from "./css.js";
+import { processCss } from "./css";
 import { argv, exit, cwd } from "node:process";
 import fs from "node:fs";
+import {
+  getArgValue,
+  kvPairToJsonString,
+  kvPairToTsString,
+  outputKvPair,
+} from "./util";
 
 if (argv.length < 3) {
   console.error("Please provide a directory for CSS/LESS/SCSS files");
@@ -17,29 +23,16 @@ const contents = files
 
 let res: { variable: string; color: string }[][] = [];
 for (const content of contents) {
-  const toHex =
-    (argv.length > 3 && argv[3] === "--hex") ||
-    (argv.length > 4 && argv[4] === "--hex")
-      ? true
-      : false;
+  const toHex = argv.includes("--hex");
   res.push(processCss(content, toHex));
 }
 
-const outputJson = JSON.stringify(
-  res.flat().reduce((acc, { variable, color }) => {
-    acc[variable] = color;
-    return acc;
-  }, {} as { [key: string]: string })
-);
+const outputArg = getArgValue(argv, "--output", ["ts", "json"]);
+const output = outputArg.type === "None" ? "ts" : outputArg!.value!.value;
 
-const output =
-  (argv.length > 3 && argv[3] === "--json") ||
-  (argv.length > 4 && argv[4] === "--json")
-    ? "json"
-    : "ts";
-
+const outputKv = outputKvPair(res);
 if (output === "json") {
-  fs.writeFileSync("colors.json", outputJson);
+  fs.writeFileSync("colors.json", kvPairToJsonString(outputKv));
 } else {
-    fs.writeFileSync("colors.ts", `export const colors = ${outputJson};`);
+  fs.writeFileSync("colors.ts", kvPairToTsString(outputKv));
 }

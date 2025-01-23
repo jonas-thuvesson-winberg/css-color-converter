@@ -1,3 +1,4 @@
 node_modules
-dist
-!dist/script
+dist/**/*.js
+dist/**/*.d.ts
+dist/**/*.map

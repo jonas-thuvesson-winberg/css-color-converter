@@ -1,16 +1,19 @@
 {
   "compilerOptions": {
-    "module": "ESNext", // Use ESM syntax (import/export)
-    "moduleResolution": "Node", // Proper module resolution for Node.js
-    "target": "ES6", // Use ES6+ features in the output
-    "outDir": "dist", // Output compiled files to "dist"
-    "rootDir": "src", // Compile files from "src"
-    "strict": true, // Enable strict type-checking
-    "esModuleInterop": true, // Allow CommonJS imports
-    "allowSyntheticDefaultImports": true, // Easier imports of CommonJS modules
-    "resolveJsonModule": true, // Allow importing JSON files
-    "skipLibCheck": true // Skip type checks on .d.ts files
+    "outFile": "./dist/bundle.js", // Specify the output file
+    "module": "AMD", // Use AMD or System module format (required for `outFile`)
+    "target": "ES6", // Specify ECMAScript target
+    "allowJs": true, // Include JS files if needed
+    "esModuleInterop": true, // Enable interop with ES modules
+    "removeComments": true, // Optionally remove comments
+    "sourceMap": true, // Generate source maps for debugging (optional)
+    "checkJs": false, // Optional: Set to true to enable type-checking of JS files
+    "moduleResolution": "node", // Use Node.js resolution strategy
+    "resolveJsonModule": true, // If you need to import JSON files as well
+    "outDir": "./dist", // Output directory for compiled files
+    "skipLibCheck": true, // Avoid type checking of declaration files
+    "strict": true // Optional for strict type checking
   },
-  "include": ["src"], // Ensure only "src" is compiled
-  "exclude": ["node_modules", "dist"] // Ignore these folders
+  "include": ["src/**/*"],
+  "exclude": ["node_modules"]
 }

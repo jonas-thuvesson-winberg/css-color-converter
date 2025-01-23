@@ -11,7 +11,8 @@
     "test-ts": "node ./dist/css-color-converter --dir samples --output-dir test-output --output-format ts",
     "test-json-hex": "node ./dist/css-color-converter --dir samples --output-dir test-output --output-format json --hex -ofn hex-colors",
     "test-ts-hex": "node ./dist/css-color-converter --dir samples --output-dir test-output --output-format ts --hex -ofn hex-colors",
-    "test": "npm run test-json && npm run test-ts && npm run test-json-hex && npm run test-ts-hex"
+    "test-clean": "rm -rf test-output",
+    "test": "npm run test-clean && npm run test-json && npm run test-ts && npm run test-json-hex && npm run test-ts-hex"
   },
   "author": "",
   "license": "ISC",

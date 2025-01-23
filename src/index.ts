@@ -4,6 +4,7 @@ import { argv, exit, cwd } from "node:process";
 import fs from "node:fs";
 import {
   getArgValue,
+  getFiles,
   isNone,
   isSome,
   kvPairToJsonString,
@@ -11,6 +12,8 @@ import {
   outputKvPair,
   Some,
 } from "./util";
+import { processScss } from "./sass";
+import { processLess } from "./less";
 
 if (argv.length < 4) {
   console.error(
@@ -29,11 +32,10 @@ if (isNone(outputDirArg)) {
 const outputDir = outputDirArg.value!.value!;
 if (!fs.existsSync(outputDir)) {
   fs.mkdirSync(outputDir, { recursive: true });
-  console.log('Directory created successfully.');
+  console.log("Directory created successfully.");
 } else {
-  console.log('Directory already exists.');
+  console.log("Directory already exists.");
 }
-
 
 const dirArg = getArgValue(argv, "--dir", "-d");
 if (isNone(dirArg)) {
@@ -58,18 +60,22 @@ if (isSome(outfileNameArg)) {
   outputFile = outfileNameArg.value.value;
 }
 
-const files = fs.readdirSync(dir);
+const files = getFiles(dir);
 const contents = files
-  .filter((f) => f.endsWith(".css"))
-  .map((file) => fs.readFileSync(path.join(dir, file), "utf-8"));
+  // .filter((f) => f.endsWith(".css"))
+  .map((file) => [file, fs.readFileSync(file, "utf-8")]);
 
 let res: { variable: string; color: string }[][] = [];
-for (const content of contents) {
-  const toHex = argv.includes("--hex");
+const toHex = argv.includes("--hex");
+for (const [file, content] of contents) {
+  if (file.endsWith(".css")) res.push(processCss(content, toHex));
+  else if (file.endsWith(".scss")) res.push(processScss(content, toHex));
+  else if (file.endsWith(".less")) res.push(processLess(content, toHex));
   res.push(processCss(content, toHex));
 }
 
 const outputKv = outputKvPair(res);
+console.log(outputKv);
 if (outputType === "json") {
   fs.writeFileSync(
     path.join(outputDir, `${outputFile}.json`),

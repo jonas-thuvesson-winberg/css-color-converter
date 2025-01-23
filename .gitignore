@@ -1,6 +1,4 @@
 node_modules
-dist/**/*.js
-dist/**/*.d.ts
-dist/**/*.map
+dist
 /**/colors.ts
 /**/colors.json

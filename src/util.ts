@@ -3,6 +3,12 @@ import path from "path";
 import { exit } from "process";
 import rgbHex from "rgb-hex";
 
+export const lessRegex = /@(.*):.*(#[\da-fA-F]{3,8}|rgb\(\d{1,3},\s*\d{1,3},\s*\d{1,3}\)|rgba\(\d{1,3},\s*\d{1,3},\s*\d{1,3},\s\d(.\d)*\));/g;
+
+export const scssRegex = /$(.*):.*(#[\da-fA-F]{3,8}|rgb\(\d{1,3},\s*\d{1,3},\s*\d{1,3}\)|rgba\(\d{1,3},\s*\d{1,3},\s*\d{1,3},\s\d(.\d)*\));/g;
+
+export const cssRegex = /--(.*):.*(#[\da-fA-F]{3,8}|rgb\(\d{1,3},\s*\d{1,3},\s*\d{1,3}\)|rgba\(\d{1,3},\s*\d{1,3},\s*\d{1,3},\s\d(.\d)*\));/g;
+
 export const kebabCaseToCamelCase = (str: string): string => {
   return str.replace(/-./g, (x) => x.toUpperCase()[1]);
 };

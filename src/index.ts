@@ -25,7 +25,10 @@ if (!fs.existsSync(outputDir)) {
 }
 
 const dirArg = getArgValue(argv, "--dir", "-d");
-const dir = validateAndParseArgValue(dirArg, "Please provide a directory for CSS/LESS/SCSS files");
+const dir = validateAndParseArgValue(
+  dirArg,
+  "Please provide a directory for CSS/LESS/SCSS files"
+);
 
 const outputTypeArg = getArgValue(argv, "--output-format", "-of", [
   "json",
@@ -39,10 +42,11 @@ let outputFile = isSome(outfileNameArg) ? outfileNameArg.value.value : "colors";
 const files = getFiles(dir);
 
 console.log("Files found:");
-console.log(files);
+for (const file of files) {
+  console.log(file);
+}
 
-const contents = files
-  .map((file) => [file, fs.readFileSync(file, "utf-8")]);
+const contents = files.map((file) => [file, fs.readFileSync(file, "utf-8")]);
 
 let res: { variable: string; color: string }[][] = [];
 const toHex = argv.includes("--hex");
@@ -59,7 +63,9 @@ if (outputType === "json") {
     path.join(outputDir, `${outputFile}.json`),
     kvPairToJsonString(outputKv)
   );
-  console.log(`Output written to ${path.join(outputDir, `${outputFile}.json`)}`);
+  console.log(
+    `Output written to ${path.join(outputDir, `${outputFile}.json`)}`
+  );
 } else {
   fs.writeFileSync(
     path.join(outputDir, `${outputFile}.ts`),
@@ -67,4 +73,3 @@ if (outputType === "json") {
   );
   console.log(`Output written to ${path.join(outputDir, `${outputFile}.ts`)}`);
 }
-

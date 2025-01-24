@@ -41,6 +41,12 @@ export const getFiles = (dir: string, maxDepth: number = 100) => {
     if (stat.isDirectory()) {
       results = results.concat(getFiles(filePath, maxDepth - 1));
     } else {
+      if (
+        !file.endsWith(".css") &&
+        !file.endsWith(".scss") &&
+        !file.endsWith(".less")
+      )
+        continue;
       results.push(filePath);
     }
   }
@@ -104,7 +110,10 @@ export const processFile = (
   return extractedVariables;
 };
 
-export const validateAndParseArgValue = (arg: Some<Arg> | None, errorMsg: string): string => {
+export const validateAndParseArgValue = (
+  arg: Some<Arg> | None,
+  errorMsg: string
+): string => {
   let argParsed: string | null = null;
   if (isNone(arg)) {
     console.error(errorMsg);

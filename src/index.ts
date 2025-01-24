@@ -15,14 +15,7 @@ import {
 import { processScss } from "./sass";
 import { processLess } from "./less";
 
-if (argv.length < 4) {
-  console.error(
-    "Please provide an output directory and a directory for CSS/LESS/SCSS files"
-  );
-  exit(1);
-}
 
-//const dir = argv[2];
 const outputDirArg = getArgValue(argv, "--output-dir", "-od");
 if (isNone(outputDirArg)) {
   console.error("Please provide an output directory");
@@ -32,10 +25,7 @@ if (isNone(outputDirArg)) {
 const outputDir = outputDirArg.value!.value!;
 if (!fs.existsSync(outputDir)) {
   fs.mkdirSync(outputDir, { recursive: true });
-  console.log("Directory created successfully.");
-} else {
-  console.log("Directory already exists.");
-}
+} 
 
 const dirArg = getArgValue(argv, "--dir", "-d");
 if (isNone(dirArg)) {

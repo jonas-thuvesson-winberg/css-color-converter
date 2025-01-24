@@ -1,10 +1,14 @@
 import fs from "fs";
 import path from "path";
+import { exit } from "process";
 import rgbHex from "rgb-hex";
 
 export const kebabCaseToCamelCase = (str: string): string => {
   return str.replace(/-./g, (x) => x.toUpperCase()[1]);
 };
+
+type None = Option<null>;
+type Some<T> = Option<T>;
 
 export const getArgValue = (
   args: string[],
@@ -63,10 +67,7 @@ export const kvPairToJsonString = (kvPair: { [key: string]: string }) =>
 
 export const kvPairToTsString = (kvPair: { [key: string]: string }) =>
   Object.entries(kvPair)
-    .map(
-      ([key, value]) =>
-        `export const ${key} = "${value}";`
-    )
+    .map(([key, value]) => `export const ${key} = "${value}";`)
     .join("\n");
 
 export const processFile = (
@@ -103,6 +104,20 @@ export const processFile = (
   return extractedVariables;
 };
 
+export const validateAndParseArgValue = (arg: Some<Arg> | None, errorMsg: string): string => {
+  let argParsed: string | null = null;
+  if (isNone(arg)) {
+    console.error(errorMsg);
+    exit(1);
+  } else if (isSome(arg)) {
+    argParsed = arg.value.value;
+  } else {
+    console.error("Unknown error"); // Should never happen
+    exit(1);
+  }
+  return argParsed!;
+};
+
 export class Arg {
   constructor(public readonly key: string, public readonly value: string) {}
 }
@@ -110,14 +125,6 @@ export class Arg {
 export interface Option<T> {
   value: T;
   type: "Some" | "None";
-}
-
-export interface Some<T> extends Option<T> {
-  type: "Some";
-}
-
-export interface None extends Option<null> {
-  type: "None";
 }
 
 export function None(): None {

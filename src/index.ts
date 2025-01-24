@@ -5,54 +5,39 @@ import fs from "node:fs";
 import {
   getArgValue,
   getFiles,
-  isNone,
   isSome,
   kvPairToJsonString,
   kvPairToTsString,
   outputKvPair,
-  Some,
+  validateAndParseArgValue,
 } from "./util";
 import { processScss } from "./sass";
 import { processLess } from "./less";
 
-
 const outputDirArg = getArgValue(argv, "--output-dir", "-od");
-if (isNone(outputDirArg)) {
-  console.error("Please provide an output directory");
-  exit(1);
-}
+const outputDir = validateAndParseArgValue(
+  outputDirArg,
+  "Please provide an output directory"
+);
 
-const outputDir = outputDirArg.value!.value!;
 if (!fs.existsSync(outputDir)) {
   fs.mkdirSync(outputDir, { recursive: true });
-} 
-
-const dirArg = getArgValue(argv, "--dir", "-d");
-if (isNone(dirArg)) {
-  console.error("Please provide a directory for CSS/LESS/SCSS files");
-  exit(1);
 }
 
-const dir = dirArg.value!.value!;
+const dirArg = getArgValue(argv, "--dir", "-d");
+const dir = validateAndParseArgValue(dirArg, "Please provide a directory for CSS/LESS/SCSS files");
 
 const outputTypeArg = getArgValue(argv, "--output-format", "-of", [
   "json",
   "ts",
 ]);
-let outputType = "ts";
-if (isSome(outputTypeArg)) {
-  outputType = outputTypeArg.value.value!;
-}
+let outputType = isSome(outputTypeArg) ? outputTypeArg.value.value : "ts";
 
 const outfileNameArg = getArgValue(argv, "--output-file-name", "-ofn");
-let outputFile = "colors";
-if (isSome(outfileNameArg)) {
-  outputFile = outfileNameArg.value.value;
-}
+let outputFile = isSome(outfileNameArg) ? outfileNameArg.value.value : "colors";
 
 const files = getFiles(dir);
 const contents = files
-  // .filter((f) => f.endsWith(".css"))
   .map((file) => [file, fs.readFileSync(file, "utf-8")]);
 
 let res: { variable: string; color: string }[][] = [];

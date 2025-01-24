@@ -37,6 +37,10 @@ const outfileNameArg = getArgValue(argv, "--output-file-name", "-ofn");
 let outputFile = isSome(outfileNameArg) ? outfileNameArg.value.value : "colors";
 
 const files = getFiles(dir);
+
+console.log("Files found:");
+console.log(files);
+
 const contents = files
   .map((file) => [file, fs.readFileSync(file, "utf-8")]);
 
@@ -50,15 +54,17 @@ for (const [file, content] of contents) {
 }
 
 const outputKv = outputKvPair(res);
-console.log(outputKv);
 if (outputType === "json") {
   fs.writeFileSync(
     path.join(outputDir, `${outputFile}.json`),
     kvPairToJsonString(outputKv)
   );
+  console.log(`Output written to ${path.join(outputDir, `${outputFile}.json`)}`);
 } else {
   fs.writeFileSync(
     path.join(outputDir, `${outputFile}.ts`),
     kvPairToTsString(outputKv)
   );
+  console.log(`Output written to ${path.join(outputDir, `${outputFile}.ts`)}`);
 }
+
